@@ -1,0 +1,12 @@
+﻿@page 
+@model WebApplication1.Pages.ListBoxModel
+@{
+    ViewData["Title"] = "ListBox";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>ListBox example</h2>
+
+<div>
+    <select asp-for="Country" asp-items="Model.Countries"></select>
+</div>

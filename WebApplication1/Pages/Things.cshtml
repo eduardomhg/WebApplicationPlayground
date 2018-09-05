@@ -1,0 +1,117 @@
+﻿@page "{number:int?}"
+@model WebApplication1.Pages.ThingsModel
+@{
+    ViewData["Title"] = "Things";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    function scrollToSelectedThing() {
+        document.getElementById("thingsList").scrollTop = document.getElementsByClassName("selected")[0].offsetTop - document.getElementsByClassName("selected")[0].offsetHeight - 5;
+    }
+
+    function enableEditing() {
+        document.getElementById("editNumberField").readOnly = false;
+        document.getElementById("editTextField").readOnly = false;
+        document.getElementById("editButton").hidden = true;
+        document.getElementById("updateButton").hidden = false;
+    }
+
+    function showToast(text) {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        x.innerHTML = text;
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
+
+    window.onload = function () { showToast("@ViewData["ToastMessage"]"); scrollToSelectedThing(); }
+</script>
+
+@*<h2>All things</h2>
+
+    <form method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Text</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var thing in Model.AllThings)
+                {
+                    <tr>
+                        <td>@thing.Number</td>
+                        <td>@thing.Text</td>
+                        <td>
+                            <button type="submit" asp-page-handler="edit" asp-route-number="@thing.Number">
+                                edit
+                            </button>
+
+                            <button type="submit" asp-page-handler="delete" asp-route-number="@thing.Number">
+                                delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>*@
+
+
+<h2>Selectable list of things</h2>
+
+<form method="post">
+
+    <nav>
+        <ul id="thingsList">
+            @foreach (var thing in Model.AllThings)
+            {
+                <li>
+                    <button class="@(ViewContext.RouteData.Values["number"] != null && thing.Number == int.Parse((string)ViewContext.RouteData.Values["number"]) ? "selected" : "")" type="submit" asp-page-handler="edit" asp-route-number="@thing.Number"
+                            tabindex="1">
+                        <div align="left">@thing.Number</div>
+                        <div align="right">@thing.Text</div>
+                    </button>
+                </li>
+            }
+        </ul>
+    </nav>
+
+
+</form>
+
+@*<h2>Create thing</h2>
+
+    <form method="post">
+        <div>Number:<input asp-for="@Model.NewThing.Number" /></div>
+        <div>Text:<input asp-for="@Model.NewThing.Text" /></div>
+        <button type="submit" asp-page-handler="create">
+            create
+        </button>
+    </form>*@
+
+<div hidden="@(Model.EditedThing == null)">
+    <h2>Edit thing</h2>
+
+    <form id="editThingForm" method="post">
+        <div>Number:<input asp-for="@Model.EditedThing.Number" readonly id="editNumberField" /></div>
+        <div>Text:<input asp-for="@Model.EditedThing.Text" readonly id="editTextField" /></div>
+        <button type="submit" asp-page-handler="update" hidden id="updateButton" onclick="document.getElementById('loader').hidden = false;">
+            update
+        </button>
+    </form>
+    <button onclick="enableEditing()" id="editButton">
+        edit
+    </button>
+    <div id="loader" class="loader" hidden></div>
+</div>
+
+<!-- The actual snackbar -->
+<div id="snackbar"></div>
