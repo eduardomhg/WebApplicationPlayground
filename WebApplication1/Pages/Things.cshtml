@@ -72,9 +72,31 @@
                             </button>
                         </div>
                         <div style="width: 300px;">
-                            <button class="btn" type="submit" asp-page-handler="delete" asp-route-number="@thing.Number" >
+                            <input type="button" name="btn" value="Delete" id="submitBtn" data-toggle="modal" data-target="#confirm-submit-@thing.Number" class="btn btn-default" />
+
+
+                            @*<button class="btn" type="submit" asp-page-handler="delete" asp-route-number="@thing.Number">
                                 <i class="fa fa-trash"></i>
-                            </button>
+                            </button>*@
+
+
+                            <div class="modal fade" id="confirm-submit-@thing.Number" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            Confirm Submit
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete thing number @thing.Number?
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-success success" asp-page-handler="delete" asp-route-number="@thing.Number">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <br style="clear: left;" />
                     </div>
@@ -87,14 +109,13 @@
 </form>
 
 <h2>Create new thing</h2>
-
-    <form method="post">
-        <div>Number:<input asp-for="@Model.NewThing.Number" /></div>
-        <div>Text:<input asp-for="@Model.NewThing.Text" /></div>
-        <button type="submit" asp-page-handler="create">
-            create
-        </button>
-    </form>
+<form method="post">
+    <div>Number:<input asp-for="@Model.NewThing.Number" /></div>
+    <div>Text:<input asp-for="@Model.NewThing.Text" /></div>
+    <button type="submit" asp-page-handler="create">
+        create
+    </button>
+</form>
 
 <div hidden="@(Model.EditedThing == null)">
     <h2>Selected thing</h2>

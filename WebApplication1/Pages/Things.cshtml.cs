@@ -26,8 +26,7 @@ namespace WebApplication1.Pages
 
         [BindProperty]
         public Thing EditedThing { get; set; }
-
-
+        
 
         public ThingsModel(IThingsDataManager thingsDataManager)
         {
