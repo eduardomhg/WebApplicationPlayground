@@ -2,7 +2,7 @@
     background-color: powderblue;
 }
 
-ul button {
+button.thing {
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
@@ -12,16 +12,24 @@ ul button {
     display: inline-block;
     font-size: 16px;
     margin: 2px;
-    width: 100%;
     cursor: pointer;
 }
 
-button:hover {
+button.thing:hover {
     background-color: #3e8e41
 }
 
 button.selected {
     background-color: #fa8072;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px;
+    cursor: pointer;
 }
 
 button.selected:hover {
@@ -135,3 +143,18 @@ input:read-only {
         opacity: 0;
     }
 }
+
+/* Style buttons */
+.btn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+        background-color: RoyalBlue;
+    }

@@ -7,7 +7,9 @@
 
 <script type="text/javascript">
     function scrollToSelectedThing() {
-        document.getElementById("thingsList").scrollTop = document.getElementsByClassName("selected")[0].offsetTop - document.getElementsByClassName("selected")[0].offsetHeight - 5;
+        document.getElementById("thingsList").scrollTop = document.getElementsByClassName("selected")[0].offsetTop -
+            document.getElementsByClassName("selected")[0].offsetHeight -
+            5;
     }
 
     function enableEditing() {
@@ -17,20 +19,7 @@
         document.getElementById("updateButton").hidden = false;
     }
 
-    function showToast(text) {
-        // Get the snackbar DIV
-        var x = document.getElementById("snackbar");
-
-        x.innerHTML = text;
-
-        // Add the "show" class to DIV
-        x.className = "show";
-
-        // After 3 seconds, remove the show class from DIV
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-    }
-
-    window.onload = function () { showToast("@ViewData["ToastMessage"]"); scrollToSelectedThing(); }
+    window.onload = function() { checkForPendingToast(); scrollToSelectedThing(); }
 </script>
 
 @*<h2>All things</h2>
@@ -74,11 +63,21 @@
             @foreach (var thing in Model.AllThings)
             {
                 <li>
-                    <button class="@(ViewContext.RouteData.Values["number"] != null && thing.Number == int.Parse((string)ViewContext.RouteData.Values["number"]) ? "selected" : "")" type="submit" asp-page-handler="edit" asp-route-number="@thing.Number"
-                            tabindex="1">
-                        <div align="left">@thing.Number</div>
-                        <div align="right">@thing.Text</div>
-                    </button>
+                    <div style="width: 500px;">
+                        <div style="float: left; width: 200px;">
+                            <button class="@(ViewContext.RouteData.Values["number"] != null && thing.Number == int.Parse((string)ViewContext.RouteData.Values["number"]) ? "selected" : "thing")" type="submit" asp-page-handler="edit" asp-route-number="@thing.Number"
+                                    tabindex="1">
+                                <div align="left">@thing.Number</div>
+                                <div align="right">@thing.Text</div>
+                            </button>
+                        </div>
+                        <div style="width: 300px;">
+                            <button class="btn" type="submit" asp-page-handler="delete" asp-route-number="@thing.Number" >
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                        <br style="clear: left;" />
+                    </div>
                 </li>
             }
         </ul>
@@ -87,7 +86,7 @@
 
 </form>
 
-@*<h2>Create thing</h2>
+<h2>Create new thing</h2>
 
     <form method="post">
         <div>Number:<input asp-for="@Model.NewThing.Number" /></div>
@@ -95,10 +94,10 @@
         <button type="submit" asp-page-handler="create">
             create
         </button>
-    </form>*@
+    </form>
 
 <div hidden="@(Model.EditedThing == null)">
-    <h2>Edit thing</h2>
+    <h2>Selected thing</h2>
 
     <form id="editThingForm" method="post">
         <div>Number:<input asp-for="@Model.EditedThing.Number" readonly id="editNumberField" /></div>
@@ -112,6 +111,3 @@
     </button>
     <div id="loader" class="loader" hidden></div>
 </div>
-
-<!-- The actual snackbar -->
-<div id="snackbar"></div>

@@ -27,8 +27,6 @@ namespace WebApplication1.Pages
         [BindProperty]
         public Thing EditedThing { get; set; }
 
-        [ViewData]
-        public string ToastMessage { get; set; } = "Prueba 2!";
 
 
         public ThingsModel(IThingsDataManager thingsDataManager)
@@ -43,12 +41,14 @@ namespace WebApplication1.Pages
             if (number.HasValue)
             {
                 this.EditedThing = this.AllThings.FirstOrDefault(t => t.Number == number.Value);
-            }
+            }            
         }
 
         public IActionResult OnPostCreate()
         {
             this.thingsDataManager.Create(this.NewThing);
+
+            TempData["ToastMessage"] = $"Thing {this.NewThing.Number} created correctly!";
 
             return RedirectToPage();
         }
@@ -64,18 +64,16 @@ namespace WebApplication1.Pages
 
             this.thingsDataManager.Update(this.EditedThing);
 
-            return this.Page();
+            TempData["ToastMessage"] = $"Thing {this.EditedThing.Number} updated correctly!";
 
             return RedirectToPage(new { number = number });
-
-            //this.RouteData.Values.Remove("number");
-
-            //return RedirectToPage("Things");
         }
 
         public IActionResult OnPostDelete(int number)
         {
             this.thingsDataManager.Delete(number);
+
+            TempData["ToastMessage"] = $"Thing {number} deleted correctly!";
 
             return RedirectToPage();
         }

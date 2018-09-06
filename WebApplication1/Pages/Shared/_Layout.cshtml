@@ -3,7 +3,35 @@
 <head>
     <title>@ViewData["Title"]</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/Styles/Styles.css">
+
+    <script type="text/javascript">
+
+        function showToast(text) {
+            // Get the snackbar DIV
+            var x = document.getElementById("snackbar");
+
+            x.innerHTML = text;
+
+            // Add the "show" class to DIV
+            x.className = "show";
+
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+        }
+
+        function checkForPendingToast() {
+            var tempMessage = "@TempData["ToastMessage"]";
+
+            if (tempMessage != "") {
+                showToast(tempMessage);
+            }
+        }
+
+        window.onload = function() { checkForPendingToast(); }
+    </script>
+
 </head>
 <body>
     @RenderBody()
@@ -19,6 +47,9 @@
     <p>
         <a asp-page="/ListBox">ListBox</a>
     </p>
+
+    <!-- The actual snackbar -->
+    <div id="snackbar"></div>
 
 </body>
 </html>
