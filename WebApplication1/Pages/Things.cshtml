@@ -19,40 +19,16 @@
         document.getElementById("updateButton").hidden = false;
     }
 
-    window.onload = function() { checkForPendingToast(); scrollToSelectedThing(); }
+    window.onload = function () { checkForPendingToast(); scrollToSelectedThing(); }
 </script>
 
-@*<h2>All things</h2>
-
-    <form method="post">
-        <table>
-            <thead>
-                <tr>
-                    <th>Number</th>
-                    <th>Text</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var thing in Model.AllThings)
-                {
-                    <tr>
-                        <td>@thing.Number</td>
-                        <td>@thing.Text</td>
-                        <td>
-                            <button type="submit" asp-page-handler="edit" asp-route-number="@thing.Number">
-                                edit
-                            </button>
-
-                            <button type="submit" asp-page-handler="delete" asp-route-number="@thing.Number">
-                                delete
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </form>*@
-
+<form>
+    <p>
+        <input type="search" name="searchText" placeholder="Search for thing text">
+        <input type="submit" value="Search" onclick="document.getElementById('loader').hidden = false;" />
+        <input type="hidden" name="handler" value="filtered" />
+    </p>
+</form>
 
 <h2>Selectable list of things</h2>
 
@@ -76,8 +52,8 @@
 
 
                             @*<button class="btn" type="submit" asp-page-handler="delete" asp-route-number="@thing.Number">
-                                <i class="fa fa-trash"></i>
-                            </button>*@
+                                    <i class="fa fa-trash"></i>
+                                </button>*@
 
 
                             <div class="modal fade" id="confirm-submit-@thing.Number" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -130,5 +106,6 @@
     <button onclick="enableEditing()" id="editButton">
         edit
     </button>
-    <div id="loader" class="loader" hidden></div>
 </div>
+
+<div id="loader" class="loader" hidden></div>

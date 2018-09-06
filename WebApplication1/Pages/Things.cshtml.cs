@@ -43,6 +43,13 @@ namespace WebApplication1.Pages
             }            
         }
 
+        public async Task OnGetFilteredAsync(string searchText)
+        {
+            await Task.Delay(2000);
+
+            this.AllThings = this.thingsDataManager.GetAll().Where(t => t.Text.ToLower().Contains(searchText?.ToLower()));
+        }
+
         public IActionResult OnPostCreate()
         {
             this.thingsDataManager.Create(this.NewThing);
